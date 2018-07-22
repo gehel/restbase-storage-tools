@@ -1,4 +1,4 @@
-package org.wikimedia.restbase;
+package org.wikimedia.restbase.krv;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.wikimedia.restbase.TombstoneWriter;
+import org.wikimedia.restbase.krv.TombstoneWriter;
 
 public class CQLTombstoneSSTableWriterTest {
     private static final String keyspace = "test";

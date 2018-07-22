@@ -1,4 +1,4 @@
-package org.wikimedia.restbase;
+package org.wikimedia.restbase.krv;
 
 import java.io.File;
 import java.io.IOException;

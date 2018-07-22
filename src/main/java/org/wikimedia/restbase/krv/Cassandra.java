@@ -1,4 +1,4 @@
-package org.wikimedia.restbase;
+package org.wikimedia.restbase.krv;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;

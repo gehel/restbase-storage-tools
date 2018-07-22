@@ -1,4 +1,4 @@
-package org.wikimedia.restbase;
+package org.wikimedia.restbase.krv;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,8 +7,8 @@ import java.time.Instant;
 import java.util.List;
 
 import org.junit.Test;
-import org.wikimedia.restbase.EditHistogram;
-import org.wikimedia.restbase.Row;
+import org.wikimedia.restbase.krv.EditHistogram;
+import org.wikimedia.restbase.krv.Row;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.google.common.collect.Lists;
