@@ -13,7 +13,7 @@ import com.datastax.driver.core.SimpleStatement;
 import com.datastax.driver.core.Statement;
 import com.google.common.base.Optional;
 
-public class TableScanner implements Iterable<Row>, Iterator<Row>, AutoCloseable {
+class TableScanner implements Iterable<Row>, Iterator<Row>, AutoCloseable {
     private static final Logger LOG = LoggerFactory.getLogger(TableScanner.class);
     private static final String QUERY = "SELECT \"_domain\", key, rev, tid FROM \"%s\".%s";
 
@@ -21,7 +21,7 @@ public class TableScanner implements Iterable<Row>, Iterator<Row>, AutoCloseable
     private final ResultSet results;
     private final Iterator<com.datastax.driver.core.Row> iterator;
 
-    public TableScanner(
+    TableScanner(
             String host,
             int port,
             String keyspace,
@@ -49,7 +49,7 @@ public class TableScanner implements Iterable<Row>, Iterator<Row>, AutoCloseable
         this.iterator = results.iterator();
     }
 
-    public PagingState getPagingState() {
+    PagingState getPagingState() {
         return this.results.getExecutionInfo().getPagingState();
     }
 

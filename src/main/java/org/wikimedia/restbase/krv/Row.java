@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.datastax.driver.core.utils.UUIDs;
 
-public class Row {
+class Row {
     private final String domain;
     private final String key;
     private final int rev;
@@ -21,23 +21,23 @@ public class Row {
         this.tid = tid;
     }
 
-    public String getDomain() {
+    String getDomain() {
         return domain;
     }
 
-    public String getKey() {
+    String getKey() {
         return key;
     }
 
-    public int getRev() {
+    int getRev() {
         return rev;
     }
 
-    public UUID getTid() {
+    UUID getTid() {
         return tid;
     }
 
-    public long getUnixTimestamp() {
+    long getUnixTimestamp() {
         return UUIDs.unixTimestamp(this.tid);
     }
 

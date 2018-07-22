@@ -11,8 +11,8 @@ import org.apache.cassandra.io.sstable.CQLTombstoneSSTableWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TombstoneWriter implements Closeable {
-    public static final int TOMBSTONES_PER_SSTABLE = 500000;
+class TombstoneWriter implements Closeable {
+    static final int TOMBSTONES_PER_SSTABLE = 500000;
 
     private static final Logger LOG = LoggerFactory.getLogger(TombstoneWriter.class);
     private static final String TABLE_NAME = "data";
@@ -39,13 +39,13 @@ public class TombstoneWriter implements Closeable {
     private final File outputDirectory;
     private final String keyspace;
 
-    public TombstoneWriter(String outputBase, String keyspace) {
+    TombstoneWriter(String outputBase, String keyspace) {
         this.outputDirectory = newOutputDirectory(outputBase, keyspace);
         this.keyspace = keyspace;
         this.writer = newWriter();
     }
 
-    public void addRow(Row row, UUID delTid) throws InvalidRequestException, IOException {
+    void addRow(Row row, UUID delTid) throws InvalidRequestException, IOException {
         if ((++count % TOMBSTONES_PER_SSTABLE) == 0) {
             LOG.info("{} new tombstones written, checking-pointing SSTable files", TOMBSTONES_PER_SSTABLE);
             this.writer.close();
@@ -55,7 +55,7 @@ public class TombstoneWriter implements Closeable {
         LOG.debug(LOG_DELETE_STMNT, this.keyspace, TABLE_NAME, row.getDomain(), row.getKey(), row.getRev(), delTid);
     }
 
-    public File getOutputDirectory() {
+    File getOutputDirectory() {
         return this.outputDirectory;
     }
 
