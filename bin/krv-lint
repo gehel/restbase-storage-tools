@@ -1,0 +1,37 @@
+#!/bin/bash
+
+
+random_instance()
+{
+    declare -a instances
+    idx=0
+
+    for i in `ls /etc/cassandra-instances.d/*.yaml`; do
+	instances[$idx]="$i"
+	idx=$(($idx+1))
+    done
+
+    rand_idx=$[ $RANDOM % $idx ]
+    echo ${instances[$rand_idx]}
+}
+
+
+INSTANCE=${INSTANCE:=`random_instance`}
+CONFIG_DIR=${CONF_DIR:=`uyaml "$INSTANCE" config_directory`}
+HOST=${HOST:=`uyaml "$INSTANCE" listen_address`}
+JAR=${JAR:=`dirname $0`/restbase-storage-tools-1.0.0-SNAPSHOT-jar-with-dependencies.jar}
+OUTPUTDIR=${OUTPUTDIR:="$PWD"}
+KEYSPACE=${1:?"Missing argument for keyspace name"}
+
+shift 1
+
+
+java \
+    -ea \
+    -Djavax.net.ssl.trustStore="$CONFIG_DIR"/tls/server.trust \
+    -jar "$JAR" \
+    --cqlshrc "$CONFIG_DIR"/cqlshrc \
+    --hostname "$HOST" \
+    --keyspace "$KEYSPACE" \
+    --output-dir "$OUTPUTDIR" \
+    "$@" 2>&1 | tee "$KEYSPACE"-`date -Iseconds`.log

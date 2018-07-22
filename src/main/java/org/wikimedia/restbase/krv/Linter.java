@@ -20,8 +20,8 @@ import com.google.common.collect.Lists;
 // TODO: Accept a token start(/end?) as argument(s), and pass to TableScanner
 // TODO: Periodically log the current token
 
-public class Runner {
-    private static final Logger LOG = LoggerFactory.getLogger(Runner.class);
+public class Linter {
+    private static final Logger LOG = LoggerFactory.getLogger(Linter.class);
     private static final int RECENCY_WINDOW_MS = 86400000;
 
     @Parameter(names = "--cqlshrc", description = "Path to Cassandra cqlshrc file.", required = true)
@@ -52,7 +52,7 @@ public class Runner {
     private boolean help;
 
     public static void main(String... args) throws Exception {
-        Runner app = new Runner();
+        Linter app = new Linter();
         JCommander argsParser = JCommander.newBuilder().addObject(app).build();
         try {
             argsParser.parse(args);

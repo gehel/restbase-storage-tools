@@ -70,7 +70,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.wikimedia.restbase.krv.Runner</mainClass>
+              <mainClass>org.wikimedia.restbase.krv.Linter</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
