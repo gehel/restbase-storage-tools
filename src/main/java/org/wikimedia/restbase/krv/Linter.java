@@ -105,6 +105,8 @@ public class Linter {
             }
         }));
 
+        int exitCode = 0;
+
         try (TableScanner scanner = new TableScanner(
                 app.hostname,
                 app.port,
@@ -174,13 +176,18 @@ public class Linter {
                 if ((numRows % 100000) == 0) LOG.info("Current page state: {}", scanner.getPagingState().toString());
             }
         }
+        catch (Exception e) {
+            LOG.error("Exception encoutered scanning table", e);
+            e.printStackTrace();
+            exitCode = 1;
+        }
 
         LOG.info("Partitions scanned: {}, rows {}, deletes {}", numPartitions, numRows, numDeletes);
         LOG.info("SSTables written to output directory: {}", writer.getOutputDirectory().toString());
         histogram.write(LOG);
         LOG.info("Complete.");
 
-        System.exit(0);
+        System.exit(exitCode);
     }
 
 }
