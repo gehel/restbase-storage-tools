@@ -53,6 +53,9 @@ class TableScanner implements Iterable<Row>, Iterator<Row>, AutoCloseable {
         return this.results.getExecutionInfo().getPagingState();
     }
 
+    // FIXME: This has a tendency to throw: com.datastax.driver.core.exceptions.ReadTimeoutException:
+    //     Cassandra timeout during read query at consistency LOCAL_ONE (1 responses were required but only 0 replica responded)
+    //     Ultimately, this might require us to increase `read_request_timeout_in_ms` in cassandra.yaml  
     @Override
     public boolean hasNext() {
         // Pre-fetch more results

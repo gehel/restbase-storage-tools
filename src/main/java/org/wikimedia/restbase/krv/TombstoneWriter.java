@@ -47,7 +47,7 @@ class TombstoneWriter implements Closeable {
 
     void addRow(Row row, UUID delTid) throws InvalidRequestException, IOException {
         if ((++count % TOMBSTONES_PER_SSTABLE) == 0) {
-            LOG.info("{} new tombstones written, checking-pointing SSTable files", TOMBSTONES_PER_SSTABLE);
+            LOG.info("{} new tombstones written, check-pointing SSTable files", TOMBSTONES_PER_SSTABLE);
             this.writer.close();
             this.writer = newWriter();
         }
