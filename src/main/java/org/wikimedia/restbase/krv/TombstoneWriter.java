@@ -11,6 +11,11 @@ import org.apache.cassandra.io.sstable.CQLTombstoneSSTableWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+@SuppressFBWarnings(
+        value = "MOM_MISLEADING_OVERLOAD_MODEL",
+        justification = "static and instance methods 'newWriter' are misleading, they should be renamed at some point")
 class TombstoneWriter implements Closeable {
     static final int TOMBSTONES_PER_SSTABLE = 500000;
 

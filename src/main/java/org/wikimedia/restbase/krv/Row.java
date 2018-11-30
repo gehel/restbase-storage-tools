@@ -1,5 +1,6 @@
 package org.wikimedia.restbase.krv;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import com.datastax.driver.core.utils.UUIDs;
@@ -42,41 +43,18 @@ class Row {
     }
 
     @Override
-    public String toString() {
-        return "Row [domain=" + domain + ", key=" + key + ", rev=" + rev + ", tid=" + tid + "]";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Row row = (Row) o;
+        return rev == row.rev &&
+                Objects.equals(domain, row.domain) &&
+                Objects.equals(key, row.key) &&
+                Objects.equals(tid, row.tid);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((domain == null) ? 0 : domain.hashCode());
-        result = prime * result + ((key == null) ? 0 : key.hashCode());
-        result = prime * result + rev;
-        result = prime * result + ((tid == null) ? 0 : tid.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        Row other = (Row) obj;
-        if (domain == null) {
-            if (other.domain != null) return false;
-        }
-        else if (!domain.equals(other.domain)) return false;
-        if (key == null) {
-            if (other.key != null) return false;
-        }
-        else if (!key.equals(other.key)) return false;
-        if (rev != other.rev) return false;
-        if (tid == null) {
-            if (other.tid != null) return false;
-        }
-        else if (!tid.equals(other.tid)) return false;
-        return true;
+        return Objects.hash(domain, key, rev, tid);
     }
 }
-

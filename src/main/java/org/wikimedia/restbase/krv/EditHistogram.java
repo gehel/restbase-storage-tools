@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 
 import com.google.common.collect.Lists;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 class EditHistogram {
 
     private final List<AtomicInteger> buckets = Lists.newArrayList(new AtomicInteger(0));
@@ -37,6 +39,7 @@ class EditHistogram {
         return this.buckets;
     }
 
+    @SuppressFBWarnings(value = "SLF4J_SIGN_ONLY_FORMAT", justification = "log message is split over multiple logging calls.")
     void write(Logger log) {
         log.info("| Weeks | Count |");
         for (int i = 0; i < this.buckets.size(); i++)

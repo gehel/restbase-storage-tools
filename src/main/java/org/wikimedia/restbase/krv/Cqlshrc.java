@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.ini4j.Ini;
+import org.ini4j.Profile;
 
 import com.google.common.base.Optional;
 
@@ -12,7 +13,7 @@ class Cqlshrc {
     private final String password;
     private final String cert;
 
-    private Cqlshrc(Ini ini) {
+    private Cqlshrc(Profile ini) {
         this(ini.get("authentication", "username"), ini.get("authentication", "password"), ini.get("ssl", "certfile"));
     }
 

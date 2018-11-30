@@ -70,6 +70,8 @@ import org.apache.cassandra.utils.Pair;
 import com.datastax.driver.core.ProtocolVersion;
 import com.datastax.driver.core.TypeCodec;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Utility to write SSTables.
  * <p>
@@ -108,6 +110,9 @@ import com.datastax.driver.core.TypeCodec;
  * same instance). It is however safe to use multiple instances in parallel (even if those instance write
  * sstables for the same table).
  */
+@SuppressFBWarnings(
+        value = "PL_PARALLEL_LISTS",
+        justification = "To be refactored later: boundNames and typeCodecs seem to be parallel lists that would be better expressed by extracting a type.")
 public class CQLTombstoneSSTableWriter implements Closeable
 {
     public static final ByteBuffer UNSET_VALUE = ByteBufferUtil.UNSET_BYTE_BUFFER;
@@ -245,6 +250,9 @@ public class CQLTombstoneSSTableWriter implements Closeable
      * insertion statement used when creating by this writer) as binary.
      * @return this writer.
      */
+    @SuppressFBWarnings(
+            value = "LEST_LOST_EXCEPTION_STACK_TRACE",
+            justification = "Some IO exceptions are wrapped in SyncExceptions, we want to unwrap them here.")
     public CQLTombstoneSSTableWriter rawAddRow(List<ByteBuffer> values)
     throws InvalidRequestException, IOException
     {
@@ -376,8 +384,6 @@ public class CQLTombstoneSSTableWriter implements Closeable
     public static class Builder
     {
         private File directory;
-
-        protected SSTableFormat.Type formatType = null;
 
         private CreateTableStatement.RawStatement schemaStatement;
         private final List<CreateTypeStatement> typeStatements;
@@ -579,9 +585,6 @@ public class CQLTombstoneSSTableWriter implements Closeable
                 AbstractSSTableSimpleWriter writer = sorted
                                                      ? new SSTableSimpleWriter(directory, cfMetaData, preparedInsert.left.updatedColumns())
                                                      : new SSTableSimpleUnsortedWriter(directory, cfMetaData, preparedInsert.left.updatedColumns(), bufferSizeInMB);
-
-                if (formatType != null)
-                    writer.setSSTableFormatType(formatType);
 
                 return new CQLTombstoneSSTableWriter(writer, preparedInsert.left, preparedInsert.right);
             }

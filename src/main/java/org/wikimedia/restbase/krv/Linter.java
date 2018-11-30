@@ -17,6 +17,8 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 // TODO: Accept a token start(/end?) as argument(s), and pass to TableScanner
 // TODO: Periodically log the current token
 
@@ -51,6 +53,7 @@ public class Linter {
     @Parameter(names = "--help", help = true)
     private boolean help;
 
+    @SuppressFBWarnings(value = "WOC_WRITE_ONLY_COLLECTION_LOCAL", justification = "Some cleanup needed, but let's ignore it atm.")
     public static void main(String... args) throws Exception {
         Linter app = new Linter();
         JCommander argsParser = JCommander.newBuilder().addObject(app).build();
@@ -178,7 +181,6 @@ public class Linter {
         }
         catch (Exception e) {
             LOG.error("Exception encoutered scanning table", e);
-            e.printStackTrace();
             exitCode = 1;
         }
 
