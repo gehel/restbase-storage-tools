@@ -17,6 +17,8 @@
  */
 package org.apache.cassandra.io.sstable;
 
+import static java.util.Locale.US;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
@@ -257,7 +260,7 @@ public class CQLTombstoneSSTableWriter implements Closeable
     throws InvalidRequestException, IOException
     {
         if (values.size() != boundNames.size())
-            throw new InvalidRequestException(String.format("Invalid number of arguments, expecting %d values but got %d", boundNames.size(), values.size()));
+            throw new InvalidRequestException(String.format(US, "Invalid number of arguments, expecting %d values but got %d", boundNames.size(), values.size()));
 
         QueryOptions options = QueryOptions.forInternalCalls(null, values);
         List<ByteBuffer> keys = insert.buildPartitionKeyNames(options);

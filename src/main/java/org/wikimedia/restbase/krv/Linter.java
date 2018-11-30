@@ -17,6 +17,7 @@ import com.datastax.driver.core.utils.UUIDs;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
+import de.thetaphi.forbiddenapis.SuppressForbidden;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 // TODO: Accept a token start(/end?) as argument(s), and pass to TableScanner
@@ -54,6 +55,7 @@ public class Linter {
     private boolean help;
 
     @SuppressFBWarnings(value = "WOC_WRITE_ONLY_COLLECTION_LOCAL", justification = "Some cleanup needed, but let's ignore it atm.")
+    @SuppressForbidden // it's ok for the main() method to use System.out / System.err
     public static void main(String... args) throws Exception {
         Linter app = new Linter();
         JCommander argsParser = JCommander.newBuilder().addObject(app).build();

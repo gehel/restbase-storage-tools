@@ -3,6 +3,8 @@ package org.wikimedia.restbase.krv;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Locale;
+
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.KeyspaceMetadata;
 import com.datastax.driver.core.QueryOptions;
@@ -82,6 +84,6 @@ class Cassandra implements AutoCloseable {
     }
 
     private static String quote(String val) {
-        return String.format("\"%s\"", val);
+        return String.format(Locale.ROOT, "\"%s\"", val);
     }
 }

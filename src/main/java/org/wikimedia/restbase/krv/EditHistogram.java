@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
@@ -47,9 +48,9 @@ class EditHistogram {
     }
 
     void write(PrintStream writer) {
-        writer.printf("| %-7s | %-7s |%n", "Weeks", "Count");
+        writer.printf(Locale.ROOT, "| %-7s | %-7s |%n", "Weeks", "Count");
         for (int i = 0; i < this.buckets.size(); i++)
-            writer.printf("| %7d | %7d |%n", i, this.buckets.get(i));
+            writer.printf(Locale.ROOT, "| %7d | %7d |%n", i, this.buckets.get(i));
     }
 
 }

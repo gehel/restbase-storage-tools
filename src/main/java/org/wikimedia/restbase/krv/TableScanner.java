@@ -3,6 +3,7 @@ package org.wikimedia.restbase.krv;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Iterator;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ class TableScanner implements Iterable<Row>, Iterator<Row>, AutoCloseable {
 
         this.cassandra = new Cassandra(host, port, user, pass, timeout, ssl, Optional.of(1000));
         
-        Statement statement = new SimpleStatement(String.format(QUERY, keyspace, table));
+        Statement statement = new SimpleStatement(String.format(Locale.ROOT, QUERY, keyspace, table));
 
         // If a page-state was passed in, use it.
         if (pageState.isPresent()) {

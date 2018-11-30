@@ -1,9 +1,12 @@
 package org.wikimedia.restbase.krv;
 
+import static java.util.Locale.US;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.cassandra.exceptions.InvalidRequestException;
@@ -76,20 +79,20 @@ class TombstoneWriter implements Closeable {
     static File newOutputDirectory(String base, String keyspaceName) {
         File path = Paths.get(base, UUID.randomUUID().toString(), keyspaceName, TABLE_NAME).toFile();
         if (path.exists())
-            throw new RuntimeException(String.format("%s already exists; This should not happen!", path.toString()));
+            throw new RuntimeException(String.format(US, "%s already exists; This should not happen!", path.toString()));
         if (!path.mkdirs())
-            throw new RuntimeException(String.format("Unable to create output directory %s", path.toString()));
+            throw new RuntimeException(String.format(US, "Unable to create output directory %s", path.toString()));
         return path;
     }
 
     static CQLTombstoneSSTableWriter newWriter(File output, String keyspace) {
         LOG.info("Creating new table writer using output directory: {}", output);
-        LOG.debug("Creating new table writer using schema: {}", String.format(TABLE_SCHEMA, keyspace, TABLE_NAME));
-        LOG.debug("Creating new table writer using statement: {}", String.format(DELETE_STMNT, keyspace, TABLE_NAME));
+        LOG.debug("Creating new table writer using schema: {}", String.format(Locale.ROOT, TABLE_SCHEMA, keyspace, TABLE_NAME));
+        LOG.debug("Creating new table writer using statement: {}", String.format(Locale.ROOT, DELETE_STMNT, keyspace, TABLE_NAME));
         return CQLTombstoneSSTableWriter.builder()
                                         .inDirectory(output)
-                                        .forTable(String.format(TABLE_SCHEMA, keyspace, TABLE_NAME))
-                                        .using(String.format(DELETE_STMNT, keyspace, TABLE_NAME))
+                                        .forTable(String.format(Locale.ROOT, TABLE_SCHEMA, keyspace, TABLE_NAME))
+                                        .using(String.format(Locale.ROOT, DELETE_STMNT, keyspace, TABLE_NAME))
                                         .build();
     }
 }
